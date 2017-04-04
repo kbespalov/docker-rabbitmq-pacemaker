@@ -1,0 +1,65 @@
+version: "3"
+
+networks:
+  bunny:
+     driver: bridge
+     ipam:
+       driver: default
+       config:
+          - subnet: 172.23.0.0/24
+
+services:
+
+  pm-1:
+    build: ./pacemaker
+    image: pacemaker
+    container_name: pm-1
+    hostname: pm-1
+    command: /bin/bash /docker/start.sh
+    networks:
+      bunny:
+        ipv4_address: 172.23.0.6
+
+  pm-2:
+    build: ./pacemaker
+    image: pacemaker
+    container_name: pm-2
+    hostname: pm-2
+    command: /bin/bash /docker/start.sh
+    networks:
+      bunny:
+        ipv4_address: 172.23.0.7
+
+  pm-3:
+    build: ./pacemaker
+    image: pacemaker
+    container_name: pm-3
+    hostname: pm-3
+    command: /bin/bash /docker/start.sh
+    networks:
+      bunny:
+        ipv4_address: 172.23.0.8
+
+  # rabbit-1:
+  #   image: rabbitmq
+  #   container_name: rmq-a
+  #   hostname: rmq-a
+  #   networks:
+  #     bunny:
+  #       ipv4_address: 172.23.0.3
+  #
+  # rabbit-2:
+  #   image: rabbitmq
+  #   container_name: rmq-b
+  #   hostname: rmq-b
+  #   networks:
+  #     bunny:
+  #       ipv4_address: 172.23.0.4
+  #
+  # rabbit-3:
+  #   image: rabbitmq
+  #   container_name: rmq-c
+  #   hostname: rmq-c
+  #   networks:
+  #     bunny:
+  #       ipv4_address: 172.23.0.5
