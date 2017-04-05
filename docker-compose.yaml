@@ -16,6 +16,8 @@ services:
     container_name: pm-1
     hostname: pm-1
     command: /bin/bash /docker/start.sh
+    environment:
+      cluster_password: r00tme
     networks:
       bunny:
         ipv4_address: 172.23.0.6
@@ -26,6 +28,8 @@ services:
     container_name: pm-2
     hostname: pm-2
     command: /bin/bash /docker/start.sh
+    environment:
+      cluster_password: r00tme
     networks:
       bunny:
         ipv4_address: 172.23.0.7
@@ -36,6 +40,8 @@ services:
     container_name: pm-3
     hostname: pm-3
     command: /bin/bash /docker/start.sh
+    environment:
+      cluster_password: r00tme
     networks:
       bunny:
         ipv4_address: 172.23.0.8
