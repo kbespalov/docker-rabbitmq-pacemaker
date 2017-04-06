@@ -1,6 +1,6 @@
 FROM ubuntu
 
-RUN apt-get update && apt-get install -y pacemaker vim net-tools iputils-ping telnet
+RUN apt-get update && apt-get install -y pacemaker vim net-tools iputils-ping telnet rabbitmq-server
 RUN mkdir -p /etc/corosync/service.d
 RUN update-rc.d pacemaker defaults 20 01
 

@@ -1,5 +1,5 @@
 #!bin/bash
 
 # disable quorum-related messages in the logs
-pcs property set no-quorum-policy=ignore
-pcs property set stonith-enabled=false
+crm configure property no-quorum-policy=ignore
+crm configure property stonith-enabled=false
