@@ -9,6 +9,50 @@ networks:
           - subnet: 172.23.0.0/24
 
 services:
+  rpc_client:
+     build: ./simulator
+     image: simulator
+     entrypoint: /bin/bash  /messaging/client.sh
+     networks:
+       bunny:
+         ipv4_address: 172.23.0.9
+     environment:
+        - topics=1
+        - servers=1
+        - messages=3000
+        - timeout=60
+        - threads=32
+        - sync=call
+
+     depends_on:
+        - rpc_server
+        - influxdb
+
+  rpc_server:
+     build: ./simulator
+     image: simulator
+     entrypoint: /bin/bash /messaging/server.sh
+
+     networks:
+       bunny:
+         ipv4_address: 172.23.0.12
+
+     environment:
+       - topic=1
+       - server=1
+
+     depends_on:
+       - pm-1
+       - influxdb
+
+  influxdb:
+    image: influxdb
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+    networks:
+      bunny:
+        ipv4_address: 172.23.0.10
 
   pm-1:
     build: ./pacemaker
@@ -16,6 +60,9 @@ services:
     container_name: pm-1
     hostname: pm-1
     command: /bin/bash /docker/start.sh
+    cap_add:
+       - NET_ADMIN
+       - SYS_ADMIN
     environment:
       cluster_password: r00tme
     networks:
@@ -28,6 +75,9 @@ services:
     container_name: pm-2
     hostname: pm-2
     command: /bin/bash /docker/start.sh
+    cap_add:
+       - NET_ADMIN
+       - SYS_ADMIN
     environment:
       cluster_password: r00tme
     networks:
@@ -40,32 +90,11 @@ services:
     container_name: pm-3
     hostname: pm-3
     command: /bin/bash /docker/start.sh
+    cap_add:
+       - NET_ADMIN
+       - SYS_ADMIN
     environment:
       cluster_password: r00tme
     networks:
       bunny:
         ipv4_address: 172.23.0.8
-
-  # rabbit-1:
-  #   image: rabbitmq
-  #   container_name: rmq-a
-  #   hostname: rmq-a
-  #   networks:
-  #     bunny:
-  #       ipv4_address: 172.23.0.3
-  #
-  # rabbit-2:
-  #   image: rabbitmq
-  #   container_name: rmq-b
-  #   hostname: rmq-b
-  #   networks:
-  #     bunny:
-  #       ipv4_address: 172.23.0.4
-  #
-  # rabbit-3:
-  #   image: rabbitmq
-  #   container_name: rmq-c
-  #   hostname: rmq-c
-  #   networks:
-  #     bunny:
-  #       ipv4_address: 172.23.0.5

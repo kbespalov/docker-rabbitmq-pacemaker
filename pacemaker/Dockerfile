@@ -18,4 +18,6 @@ RUN cp /docker/authkey /etc/corosync/authkey && \
 # fix bug (run service in backgroud - &)
 # RUN sed -i 's/DAEMON_ARGS > \/dev\/null 2>&1/DAEMON_ARGS \> \/dev\/null 2\>\&1 \&/' /etc/init.d/pcsd
 
+
+
 EXPOSE 5404 5406 2224
