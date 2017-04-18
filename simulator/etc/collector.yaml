@@ -1,0 +1,6 @@
+stats_dir: /messaging/simulator
+influxdb:
+  username: admin
+  password: admin
+  host: influxdb
+  database: simulator
